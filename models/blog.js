@@ -4,10 +4,26 @@ mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true)
 
 const blogSchema = new mongoose.Schema({
-    title: { type: String, required: true } ,
-    author: { type: String },
-    url: { type: String,required: true },
-    likes: {type: Number, default: 0 }
+    url: {
+        type: String,
+        required: true 
+    },
+    title: { 
+        type: String,
+        required: true 
+    },
+    author: { 
+        type: String    
+    },   
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    likes: {
+        type: Number,
+        default: 0 
+    }
+    
 })
 
 blogSchema
@@ -18,4 +34,5 @@ blogSchema
             delete returnedObject.__v
         } 
     })
+
 module.exports = mongoose.model('Blog', blogSchema)
