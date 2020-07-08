@@ -1,4 +1,0 @@
-/*
-const longUserList = [
-    {_id}
-]*/

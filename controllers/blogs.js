@@ -5,13 +5,7 @@ const jwt = require('jsonwebtoken')
 
 
 
-const getTokenFrom = request => {
-    const authorization = request.get('authorization')
-    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-        return authorization.substring(7)
-    }
-    return null
-}
+
 
 //kaikkien blogien haku
 blogsRouter.get('/', async (request, response) => {
@@ -23,11 +17,12 @@ blogsRouter.get('/', async (request, response) => {
   
 blogsRouter.post('/', async (request, response) => {
     const body = request.body
-    const token = getTokenFrom(request)
+    if (!request.token) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
     //verify ei toimi ilman tyhjää tai jotain muuta stringiä alussa
-    //console.log(request.token)
     const decodedToken = jwt.verify(request.token, ''+process.env.SECRET)
-    if (!token || !decodedToken.id) {
+    if (!request.token || !decodedToken.id) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
 
@@ -44,13 +39,22 @@ blogsRouter.post('/', async (request, response) => {
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
     response.json(savedBlog.toJSON())
-    //response.status(201).end()
-    
-
 })
 
-
 blogsRouter.delete('/:id', async (request, response) => {
+    const blog = await Blog.findById(request.params.id)
+    if (!request.token) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    console.log(blog.user.toString())
+    const decodedToken = jwt.verify(request.token, ''+process.env.SECRET)
+    if (!request.token || !decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    if (blog.user.toString() !== decodedToken.id.toString()){
+        return response.status(400).json({error: 'blogs can only be removed by the adder of the blog'})
+    }
+
     await Blog.findByIdAndRemove(request.params.id)
     response.status(204).end()
 })

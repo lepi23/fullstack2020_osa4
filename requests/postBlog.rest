@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxlcGkyMyIsImlkIjoiNWYwMmVjYjgzNjgyYjEwOTc5NmQxYjM1IiwiaWF0IjoxNTk0MDQ1NTQxfQ.79I9gqnr8nhGMZUt82pDp06a86tBRCYjcmFnL1u6Dbs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxlcGkyMyIsImlkIjoiNWYwMmVjYjgzNjgyYjEwOTc5NmQxYjM1IiwiaWF0IjoxNTk0MjA0NTM4fQ.aSaMAA6cV_Mwm589pD1qOKq0LfIYfTyhs7eSeZ5XK2I
 
 {
     "author": "ronja lohiranta",
-    "title": "moi",
+    "title": "moi2231231",
     "url": "www..."
     
 }
